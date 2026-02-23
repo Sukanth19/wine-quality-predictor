@@ -146,6 +146,36 @@ tr:hover td { background: #16213e; }
 }
 .form-group input:focus { outline: none; border-color: #c0392b; }
 
+/* ===== Validation ===== */
+.form-group.has-error input {
+  border-color: #e74c3c;
+  background: #1a0a0a;
+}
+.field-error {
+  display: block;
+  color: #e74c3c;
+  font-size: 0.78rem;
+  margin-top: 0.3rem;
+}
+
+/* ===== Flash Messages ===== */
+.flash {
+  padding: 0.85rem 1.2rem;
+  border-radius: 8px;
+  margin-bottom: 1.2rem;
+  font-size: 0.95rem;
+}
+.flash-error {
+  background: #2a0a0a;
+  border: 1px solid #c0392b;
+  color: #ff6b6b;
+}
+.flash-success {
+  background: #0a2a0a;
+  border: 1px solid #27ae60;
+  color: #90ee90;
+}
+
 /* ===== Result Box ===== */
 .result-box {
   text-align: center;

@@ -20,7 +20,16 @@
     <h1 class="page-title">🔍 Check Your Wine Quality</h1>
     <p class="subtitle">Enter your wine's chemical properties below. We'll compare them against the dataset using statistics.</p>
 
-    <form method="POST" class="predict-form">
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" class="predict-form" novalidate>
       <div class="form-type">
         <label>Wine Type:</label>
         <label><input type="radio" name="wine_type" value="red" {% if wine_type == 'red' %}checked{% endif %}> 🍷 Red</label>
@@ -29,10 +38,14 @@
 
       <div class="form-grid">
         {% for feat in features %}
-        <div class="form-group">
+        <div class="form-group {% if errors.get(feat) %}has-error{% endif %}">
           <label for="{{ feat }}">{{ feat | title }}</label>
           <input type="number" step="any" id="{{ feat }}" name="{{ feat }}"
-                 value="{{ input_values[feat] }}" placeholder="e.g. {{ '7.4' if feat == 'fixed acidity' else '0.5' }}" required>
+                 value="{{ input_values[feat] }}"
+                 placeholder="e.g. {{ '7.4' if feat == 'fixed acidity' else '0.5' }}">
+          {% if errors.get(feat) %}
+            <span class="field-error">⚠ {{ errors[feat] }}</span>
+          {% endif %}
         </div>
         {% endfor %}
       </div>
