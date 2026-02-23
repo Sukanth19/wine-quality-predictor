@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+static/plots/
+*.egg-info/
+.env
+venv/
+wine_env/

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Predict — Wine Quality</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav>
+    <span class="logo">🍷 Wine Quality Detector</span>
+    <div>
+      <a href="/">Home</a>
+      <a href="/analysis">Analysis</a>
+      <a href="/predict">Predict</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 class="page-title">🔍 Check Your Wine Quality</h1>
+    <p class="subtitle">Enter your wine's chemical properties below. We'll compare them against the dataset using statistics.</p>
+
+    <form method="POST" class="predict-form">
+      <div class="form-type">
+        <label>Wine Type:</label>
+        <label><input type="radio" name="wine_type" value="red" {% if wine_type == 'red' %}checked{% endif %}> 🍷 Red</label>
+        <label><input type="radio" name="wine_type" value="white" {% if wine_type == 'white' %}checked{% endif %}> 🥂 White</label>
+      </div>
+
+      <div class="form-grid">
+        {% for feat in features %}
+        <div class="form-group">
+          <label for="{{ feat }}">{{ feat | title }}</label>
+          <input type="number" step="any" id="{{ feat }}" name="{{ feat }}"
+                 value="{{ input_values[feat] }}" placeholder="e.g. {{ '7.4' if feat == 'fixed acidity' else '0.5' }}" required>
+        </div>
+        {% endfor %}
+      </div>
+
+      <button type="submit" class="btn btn-submit">Analyse Wine 🍷</button>
+    </form>
+
+    {% if result %}
+      {% if result.get('error') %}
+        <div class="result-error">⚠️ Error: {{ result.error }}</div>
+      {% else %}
+        <div class="result-box {{ result.label_class }}">
+          <h2>Result: Quality Score <span class="score">{{ result.quality }}</span> / 9</h2>
+          <p class="label-badge {{ result.label_class }}">{{ result.label }}</p>
+        </div>
+
+        <h3 class="section-title">📊 Feature Breakdown</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Your Value</th>
+                <th>Dataset Mean</th>
+                <th>Z-Score</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in result.breakdown %}
+              <tr>
+                <td>{{ row.feature }}</td>
+                <td>{{ row.your_value }}</td>
+                <td>{{ row.dataset_mean }}</td>
+                <td>{{ row.z_score }}</td>
+                <td class="status-{{ row.status | lower | replace(' ', '-') }}">{{ row.status }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</body>
+</html>

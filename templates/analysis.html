@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Analysis — Wine Quality</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav>
+    <span class="logo">🍷 Wine Quality Detector</span>
+    <div>
+      <a href="/">Home</a>
+      <a href="/analysis">Analysis</a>
+      <a href="/predict">Predict</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 class="page-title">📊 Exploratory Data Analysis</h1>
+
+    <div class="plot-grid">
+      <div class="plot-card">
+        <h3>Quality Distribution</h3>
+        <img src="{{ url_for('static', filename='plots/quality_dist.png') }}" alt="Quality Distribution">
+      </div>
+      <div class="plot-card">
+        <h3>Alcohol vs Quality</h3>
+        <img src="{{ url_for('static', filename='plots/alcohol_quality.png') }}" alt="Alcohol vs Quality">
+      </div>
+      <div class="plot-card full-width">
+        <h3>Feature Distributions: Red vs White</h3>
+        <img src="{{ url_for('static', filename='plots/feature_hist.png') }}" alt="Feature Histograms">
+      </div>
+      <div class="plot-card">
+        <h3>Red Wine Correlation Heatmap</h3>
+        <img src="{{ url_for('static', filename='plots/corr_red.png') }}" alt="Red Correlation">
+      </div>
+      <div class="plot-card">
+        <h3>White Wine Correlation Heatmap</h3>
+        <img src="{{ url_for('static', filename='plots/corr_white.png') }}" alt="White Correlation">
+      </div>
+    </div>
+
+    <h2 class="section-title">📋 Red Wine — Summary Statistics</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Statistic</th>
+            {% for col in red_summary.keys() %}
+              {% if col != 'type' %}<th>{{ col }}</th>{% endif %}
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% set stats = ['count','mean','std','min','25%','50%','75%','max'] %}
+          {% for stat in stats %}
+          <tr>
+            <td><strong>{{ stat }}</strong></td>
+            {% for col, vals in red_summary.items() %}
+              {% if col != 'type' %}
+              <td>{{ vals[stat] if stat in vals else '—' }}</td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="section-title">📋 White Wine — Summary Statistics</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Statistic</th>
+            {% for col in white_summary.keys() %}
+              {% if col != 'type' %}<th>{{ col }}</th>{% endif %}
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% set stats = ['count','mean','std','min','25%','50%','75%','max'] %}
+          {% for stat in stats %}
+          <tr>
+            <td><strong>{{ stat }}</strong></td>
+            {% for col, vals in white_summary.items() %}
+              {% if col != 'type' %}
+              <td>{{ vals[stat] if stat in vals else '—' }}</td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

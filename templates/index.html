@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wine Quality Detector</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav>
+    <span class="logo">🍷 Wine Quality Detector</span>
+    <div>
+      <a href="/">Home</a>
+      <a href="/analysis">Analysis</a>
+      <a href="/predict">Predict</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <h1>Wine Quality Detector</h1>
+    <p>Explore the dataset and check how good your wine is — using pure statistics, no black-box ML.</p>
+    <a href="/predict" class="btn">Check My Wine →</a>
+    <a href="/analysis" class="btn btn-outline">View Analysis →</a>
+  </div>
+
+  <div class="container">
+    <div class="cards">
+      <div class="card red-card">
+        <h2>🍷 Red Wine</h2>
+        <p><strong>{{ red.count }}</strong> samples</p>
+        <p>Avg Quality: <strong>{{ red.avg_quality }}</strong> / 10</p>
+        <p>Avg Alcohol: <strong>{{ red.avg_alcohol }}%</strong></p>
+      </div>
+      <div class="card white-card">
+        <h2>🥂 White Wine</h2>
+        <p><strong>{{ white.count }}</strong> samples</p>
+        <p>Avg Quality: <strong>{{ white.avg_quality }}</strong> / 10</p>
+        <p>Avg Alcohol: <strong>{{ white.avg_alcohol }}%</strong></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
